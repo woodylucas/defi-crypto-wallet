@@ -1,21 +1,14 @@
 import { Text } from "react-native";
-import { StatusBar as ExpoStatusBar } from "expo-status-bar";
-import { ThemeProvider } from "styled-components/native";
+import { NavigationContainer, RouteProp } from "@react-navigation/native";
+import { SafeArea } from "../../components/utily/SafeArea.component";
+import HomeNavigator from "./Home.navigator";
 
-import {
-  useFonts,
-  Inter_400Regular,
-  Inter_600SemiBold,
-} from "@expo-google-fonts/inter";
-import { theme } from "./src/infrastructure/theme";
-import { RouteProp } from "@react-navigation/native";
 import {
   createBottomTabNavigator,
   BottomTabNavigationOptions,
 } from "@react-navigation/bottom-tabs";
+
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { SafeArea } from "./src/components/utily/SafeArea.component";
-import Navigation from "./src/infrastructure/navigation";
 
 enum RouteNames {
   Home = "Home",
@@ -89,22 +82,15 @@ function PortfolioScreen() {
   );
 }
 
-export default function App() {
-  const [interLoaded] = useFonts({
-    Inter_400Regular,
-    Inter_600SemiBold,
-  });
-
-  if (!interLoaded) {
-    return null;
-  }
-
+export default function AppNavigator() {
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <Navigation />
-      </ThemeProvider>
-      <ExpoStatusBar style="auto" />
-    </>
+    <NavigationContainer>
+      <Tab.Navigator screenOptions={createScreenOptions}>
+        <Tab.Screen name={RouteNames.Home} component={HomeNavigator} />
+        <Tab.Screen name={RouteNames.Portfolio} component={PortfolioScreen} />
+        <Tab.Screen name={RouteNames.Prices} component={PricesScreen} />
+        <Tab.Screen name={RouteNames.Settings} component={SettingsScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
